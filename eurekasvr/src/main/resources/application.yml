@@ -1,0 +1,9 @@
+server:
+  port: 8761         # Port Eureka Server is going to listen on
+
+eureka:
+  client:
+    registerWithEureka: false        # not to register with Eureka server because this is the Eureka server
+    fetchRegistry: false             # the eureka.client .fetchRegistry attribute is set to false so that when the Eureka service starts, it doesn’t try to cache its registry information locally
+    server:
+      waitTimeInMsWhenSyncEmpty: 5

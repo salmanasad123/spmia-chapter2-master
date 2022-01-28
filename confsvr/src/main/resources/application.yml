@@ -1,0 +1,30 @@
+server:
+  port: 8888
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/salmanasad123/config-repo-microservices-book/
+          clone-on-start: true
+          search-paths:
+            - licensingservice
+            - organizationservice
+          username: salmanasad123
+          password: my770rift!
+
+
+####
+#Classpath and file-based solution
+####
+
+#server:
+#   port: 8888
+#spring:
+#  profiles:
+#    active: native
+#  cloud:
+#     config:
+#       server:
+#           native:
+#             searchLocations: file:////Users/sasad/Documents/spmia-chapter2-master/confsvr/src/main/resources/config/licensingservice
