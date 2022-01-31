@@ -1,7 +1,11 @@
 package com.thoughtmechanix.licenses.services;
 
+import com.thoughtmechanix.licenses.clients.OrganizationDiscoveryClient;
+import com.thoughtmechanix.licenses.clients.OrganizationFeignClient;
+import com.thoughtmechanix.licenses.clients.OrganizationRestTemplateClient;
 import com.thoughtmechanix.licenses.config.ServiceConfig;
 import com.thoughtmechanix.licenses.model.License;
+import com.thoughtmechanix.licenses.model.Organization;
 import com.thoughtmechanix.licenses.repository.LicenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +22,54 @@ public class LicenseService {
     @Autowired
     ServiceConfig config;
 
-    public License getLicense(String organizationId, String licenseId) {
+    @Autowired
+    OrganizationFeignClient organizationFeignClient;
+
+    @Autowired
+    OrganizationRestTemplateClient organizationRestClient;
+
+    @Autowired
+    OrganizationDiscoveryClient organizationDiscoveryClient;
+
+
+    // I’ve added a simple method called retrieveOrgInfo() that will resolve based on the clientType
+    // passed into the route the type of client that will be used to look up an organization service instance
+    private Organization retrieveOrgInfo(String organizationId, String clientType) {
+
+        Organization organization = null;
+
+        switch (clientType) {
+            case "feign":
+                System.out.println("I am using the feign client");
+                organization = organizationFeignClient.getOrganization(organizationId);
+                break;
+            case "rest":
+                System.out.println("I am using the rest client");
+                organization = organizationRestClient.getOrganization(organizationId);
+                break;
+            case "discovery":
+                System.out.println("I am using the discovery client");
+                organization = organizationDiscoveryClient.getOrganization(organizationId);
+                break;
+            default:
+                organization = organizationRestClient.getOrganization(organizationId);
+        }
+
+        return organization;
+    }
+
+    public License getLicense(String organizationId, String licenseId, String clientType) {
+
         License license = licenseRepository.findByOrganizationIdAndLicenseId(organizationId, licenseId);
-        return license.withComment(config.getExampleProperty());
+
+        Organization org = retrieveOrgInfo(organizationId, clientType);
+
+        return license
+                .withOrganizationName(org.getName())
+                .withContactName(org.getContactName())
+                .withContactEmail(org.getContactEmail())
+                .withContactPhone(org.getContactPhone())
+                .withComment(config.getExampleProperty());
     }
 
     public List<License> getLicensesByOrg(String organizationId) {
@@ -41,6 +90,5 @@ public class LicenseService {
     public void deleteLicense(License license) {
         licenseRepository.delete(license.getLicenseId());
     }
-
 
 }
