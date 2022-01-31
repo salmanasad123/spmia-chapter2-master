@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
@@ -21,6 +22,7 @@ public class Application {
     // The @LoadBalanced annotation tells Spring Cloud to create a Ribbon backed RestTemplate class without this the rest template client will not be backed by ribbon
     // which we can use for client side load balancing.
     @LoadBalanced
+    @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
