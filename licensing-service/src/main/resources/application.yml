@@ -1,0 +1,20 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: licensingservice   # Every service registered with Eureka will have two components associated with it: the application ID and the instance ID. The application ID is used to represent a group service instance. In a Spring-Boot-based microservice, the application ID will always be the value set by the spring.application.name property
+  profiles:
+    active: default
+  cloud:
+    config:
+      enabled: true
+
+eureka:
+  instance:
+    preferIpAddress: true        # Register the IP of the service rather than the server name
+  client:
+    registerWithEureka: true     # Tell the organization service to register itself with Eureka
+    fetchRegistry: true          # Tell the Spring Eureka Client to fetch a local copy of the registry. Setting this attribute to true will cache the registry locally instead of calling the Eureka service with every lookup
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka    #holds a comma-separated list of Eureka services the client will use to resolve to service loca- tions

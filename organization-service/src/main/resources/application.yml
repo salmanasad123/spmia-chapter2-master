@@ -1,3 +1,6 @@
+server:
+  port: 8081
+
 spring:
   application:
     name: organizationservice   #Every service registered with Eureka will have two components associated with it: the application ID and the instance ID. The application ID is used to represent a group service instance. In a Spring-Boot-based microservice, the application ID will always be the value set by the spring.application.name property
