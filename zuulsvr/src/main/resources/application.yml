@@ -23,3 +23,7 @@ eureka:
 #  routes:
 #    organizationservice: /organization/**
 #    licensingservice: /licensing/**
+#
+## Zuul uses Netflix’s Hystrix and Ribbon libraries to help prevent long-running service calls from impacting the performance of the services gateway. By default, Zuul will ter- minate and return an HTTP 500 error for any call that takes longer than one second to process a request. (This is the Hystrix default.) Fortunately, you can configure this behavior by setting the Hystrix timeout properties in your Zuul server’s configuration.
+##To set the Hystrix timeout for all of the services running through Zuul, you can use the hystrix.command.default.execution.isolation.thread.timeoutIn- Milliseconds property
+#hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 2500
