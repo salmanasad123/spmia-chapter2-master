@@ -1,0 +1,25 @@
+server:
+  port: 5555
+
+eureka:
+  instance:
+    preferIpAddress: true       # Register the IP of the service rather than the server name
+  client:
+    registerWithEureka: true    # Tell the organization service to register itself with Eureka
+    fetchRegistry: true         # Tell the Spring Eureka Client to fetch a local copy of the registry. Setting this attribute to true will cache the registry locally instead of calling the Eureka service with every lookup
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/        # Holds a comma-separated list of Eureka services the client will use to resolve to service locations
+
+
+
+
+# Zuul allows you to be more fine-grained by allowing you to explicitly define route mappings rather than relying solely
+# on the automated routes created with the service’s Eureka service ID. Suppose you wanted to simplify the route by
+# shortening the organization name rather than having your organization service accessed in Zuul via the default route of /organizationservice/v1/organizations/{organization- id}
+
+#zuul:
+#  ignored-services: 'organizationservice'    # If you want to exclude the automated mapping of the Eureka service ID route and only have available the organization service route that you’ve defined, you can add an additional Zuul parameter to your application.yml file, called ignored-services
+#  prefix: /api                # All defined services will be prefixed with /api.
+#  routes:
+#    organizationservice: /organization/**
+#    licensingservice: /licensing/**

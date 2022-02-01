@@ -21,10 +21,10 @@ import org.springframework.web.client.RestTemplate;
 @EnableDiscoveryClient   // Activates the Spring DiscoveryClient for use. The @EnableDiscoveryClient annotation is the trigger for Spring Cloud to enable the application to use the DiscoveryClient and Ribbon libraries
 @EnableFeignClients      // The @EnableFeignClients annotation is needed to use the FeignClient in your code.
 @EnableCircuitBreaker    // Tells Spring Cloud you’re going to use Hystrix for your service
-public class Application {
+public class LicensingServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(LicensingServiceApplication.class, args);
     }
 
     // To use a Ribbon-aware RestTemplate class, you need to define a RestTemplate bean construction method
