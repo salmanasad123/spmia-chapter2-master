@@ -1,4 +1,4 @@
-package com.thoughtmechanix.licenses.config;
+package com.thoughtmechanix.organization.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class ServiceConfig{
+public class ServiceConfig {
 
     @Value("${example.property}")
     private String exampleProperty;

@@ -9,6 +9,7 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
@@ -71,4 +72,24 @@ public class LicensingServiceApplication {
                                                  OAuth2ProtectedResourceDetails details) {
         return new OAuth2RestTemplate(details, oauth2ClientContext);
     }
+
+
+    // Because the licensing service calls the organization service, you need to ensure that the OAuth2 token is propagated.
+    // This is normally done via the OAuth2RestTemplate class; however, the OAuth2RestTemplate class doesn’t
+    // propagate JWT-based tokens. To make sure that your licensing service does this, you need to add a custom
+    // RestTemplate bean that will perform this injection for you
+    @Primary
+    @Bean
+    public RestTemplate getCustomRestTemplate() {
+        RestTemplate template = new RestTemplate();
+        List interceptors = template.getInterceptors();
+        if (interceptors == null) {
+            template.setInterceptors(Collections.singletonList(new UserContextInterceptor()));  // The UserContextInterceptor will inject the Authorization header into every Rest call
+        } else {
+            interceptors.add(new UserContextInterceptor());  // The UserContextInterceptor will inject the Authorization header into every Rest call
+            template.setInterceptors(interceptors);
+        }
+        return template;
+    }
+
 }

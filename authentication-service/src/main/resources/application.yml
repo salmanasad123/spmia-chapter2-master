@@ -17,3 +17,5 @@ eureka:
 server:
   contextPath: /auth
   port: 8901
+
+signing.key: "345345fsdfsf5345"
