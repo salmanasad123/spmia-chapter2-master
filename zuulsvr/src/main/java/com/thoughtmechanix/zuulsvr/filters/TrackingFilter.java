@@ -31,7 +31,7 @@ public class TrackingFilter extends ZuulFilter {
     @Autowired
     FilterUtils filterUtils;
 
-    // The filterType() method is used to tell Zuul whether the filter is a pre-, route, or post filter.
+    // The filterType() method is used to tell Zuul whether the filter is a pre, route, or post filter.
     @Override
     public String filterType() {
         return FilterUtils.PRE_FILTER_TYPE;
