@@ -18,3 +18,11 @@ eureka:
     fetchRegistry: true          # Tell the Spring Eureka Client to fetch a local copy of the registry. Setting this attribute to true will cache the registry locally instead of calling the Eureka service with every lookup
     serviceUrl:
       defaultZone: http://localhost:8761/eureka    #holds a comma-separated list of Eureka services the client will use to resolve to service loca- tions
+
+
+# Your protected resource then has to call back to the OAuth2 service to see if the token is valid.
+# You define the callback URL in your organization service’s application.yml file as the property security.oauth2.resource.userInfoUri
+security:
+  oauth2:
+    resource:
+      userInfoUri: http://localhost:8901/auth/user

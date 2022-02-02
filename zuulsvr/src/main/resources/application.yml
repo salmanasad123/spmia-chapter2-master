@@ -10,7 +10,10 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/        # Holds a comma-separated list of Eureka services the client will use to resolve to service locations
 
-
+# you need to modify your Zuul services gateway to propagate the OAuth2 token to the licensing service. By default,
+# Zuul won’t forward sensitive HTTP headers such as Cookie, Set-Cookie, and Authorization to downstream services. To allow Zuul to propagate the “Autho- rization” HTTP header, you need to set the following configuration in your Zuul ser- vices gateway’s application.yml or Spring Cloud Config data store
+zuul:
+  sensitive-headers: Cookie,Set-Cookie  # This configuration is a blacklist of the sensitive headers that Zuul will keep from being propagated to a downstream service. The absence of the Authorization value in the previous list means Zuul will allow it through
 
 
 # Zuul allows you to be more fine-grained by allowing you to explicitly define route mappings rather than relying solely
